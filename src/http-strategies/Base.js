@@ -88,6 +88,7 @@ export default class BaseStrategy {
         );
       }
 
+      // If we have a request body, let's parse it and add it to the request
       if(hasBody(req)) {
 
         it.contentType  = req.headers["content-type"];
@@ -141,7 +142,7 @@ export default class BaseStrategy {
           it.rawBody = req.rawBody;
           return resolve(it);
         }
-        // The request has been read, but the body has been set
+        // The request has been read, but the body has been set (i.e. bodyParser middleware)
         else if(typeof req.body === "object") {
           it.hasBody = true;
           it.body = req.body;

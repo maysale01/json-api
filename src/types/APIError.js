@@ -46,6 +46,8 @@ export default class APIError extends Error {
     const fallbackTitle = "An unknown error occurred while trying to process this request.";
     const ErrorConstructor = this || APIError; // in case this isn't bound.
 
+    console.error(err.stack);
+    
     if(err instanceof APIError) {
       return err;
     }

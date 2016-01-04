@@ -505,7 +505,13 @@ export default class MongooseAdapter {
 
       const typeOptions = schemaType.options.type;
       const holdsArray = Array.isArray(typeOptions);
-      const baseType = holdsArray ? typeOptions[0].type.name : typeOptions.name;
+      var isSchema = holdsArray ? typeOptions[0] instanceof _mongoose2["default"].Schema : typeOptions instanceof _mongoose2["default"].Schema;
+      var baseType;
+      if (isSchema) {
+        baseType = holdsArray ? typeOptions[0].options.modelName : typeOptions.options.modelName;
+      } else {
+        baseType = holdsArray ? typeOptions[0].type.name : typeOptions.name;
+      }
       const refModelName = util.getReferencedModelName(model, path);
 
       return !refModelName ?

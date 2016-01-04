@@ -26,7 +26,7 @@ var _q2 = _interopRequireDefault(_q);
 
 var _mongoose = require("mongoose");
 
-var _mongoose2 = _interopRequireDefault(_mongoose);
+var _mongoose3 = _interopRequireDefault(_mongoose);
 
 var _utilArrays = require("../../util/arrays");
 
@@ -78,7 +78,7 @@ var MongooseAdapter = (function () {
   function MongooseAdapter(models, inflector, idGenerator) {
     _classCallCheck(this, MongooseAdapter);
 
-    this.models = models || _mongoose2["default"].models;
+    this.models = models || _mongoose3["default"].models;
     this.inflector = inflector || _pluralize2["default"];
     this.idGenerator = idGenerator;
   }
@@ -98,7 +98,7 @@ var MongooseAdapter = (function () {
       var _this = this;
 
       var model = this.getModel(this.constructor.getModelName(type));
-      var queryBuilder = new _mongoose2["default"].Query(null, null, model, model.collection);
+      var queryBuilder = new _mongoose3["default"].Query(null, null, model, model.collection);
 
       var _constructor$getIdQueryType = this.constructor.getIdQueryType(idOrIds);
 
@@ -639,7 +639,13 @@ var MongooseAdapter = (function () {
 
         var typeOptions = schemaType.options.type;
         var holdsArray = Array.isArray(typeOptions);
-        var baseType = holdsArray ? typeOptions[0].type.name : typeOptions.name;
+        var isSchema = holdsArray ? typeOptions[0] instanceof _mongoose2["default"].Schema : typeOptions instanceof _mongoose2["default"].Schema;
+        var baseType;
+        if (isSchema) {
+          baseType = holdsArray ? typeOptions[0].options.modelName : typeOptions.options.modelName;
+        } else {
+          baseType = holdsArray ? typeOptions[0].type.name : typeOptions.name;
+        }
         var refModelName = util.getReferencedModelName(model, path);
 
         return !refModelName ? new _typesDocumentationFieldType2["default"](baseType, holdsArray) : new _typesDocumentationRelationshipType2["default"](holdsArray, refModelName, _this7.getType(refModelName, pluralizer));

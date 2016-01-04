@@ -121,6 +121,7 @@ var BaseStrategy = (function () {
           reject(new _typesAPIError2["default"](400, undefined, "Cannot tunnel to the method \"" + requestedMethod.toUpperCase() + "\"."));
         }
 
+        // If we have a request body, let's parse it and add it to the request
         if (hasBody(req)) {
 
           it.contentType = req.headers["content-type"];
@@ -164,12 +165,12 @@ var BaseStrategy = (function () {
           // The request has been read, but the rawBody property has been set
           else if (!req.rawBody) {
               it.hasBody = true;
-              it.body = JSON.parse(rawBody);
+              it.body = JSON.parse(req.rawBody);
               it.rawBody = req.rawBody;
               return resolve(it);
             }
-            // The request has been read, but the body has been set
-            else if (typeof req.body === 'object') {
+            // The request has been read, but the body has been set (i.e. bodyParser middleware)
+            else if (typeof req.body === "object") {
                 it.hasBody = true;
                 it.body = req.body;
                 return resolve(it);

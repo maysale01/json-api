@@ -33,5 +33,5 @@ compile-dev-test:
 compile:
 	mkdir -p $(DIST)$(SRC)
 	mkdir -p $(DIST)$(TEST)
-	$(COMPILE_CMD) $(SRC) --out-dir $(DIST)$(SRC) --optional runtime,minification.removeConsole --auxiliaryComment "istanbul ignore next"
-	$(COMPILE_CMD) $(TEST) --out-dir $(DIST)$(TEST) --optional runtime,minification.removeConsole --auxiliaryComment "istanbul ignore next"
+	$(COMPILE_CMD) $(SRC) --out-dir $(DIST)$(SRC) --optional runtime --auxiliaryComment "istanbul ignore next"
+	$(COMPILE_CMD) $(TEST) --out-dir $(DIST)$(TEST) --optional runtime --auxiliaryComment "istanbul ignore next"

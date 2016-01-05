@@ -12,9 +12,16 @@ var _slicedToArray = require("babel-runtime/helpers/sliced-to-array")["default"]
 
 var _Array$from3 = require("babel-runtime/core-js/array/from")["default"];
 
+var _interopRequireDefault = require("babel-runtime/helpers/interop-require-default")["default"];
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _util = require('util');
+
+var _util2 = _interopRequireDefault(_util);
+
 var nonEnumerable = { writable: true, enumerable: false };
 
 var APIError = (function (_Error) {
@@ -98,7 +105,8 @@ var APIError = (function (_Error) {
 
         // Otherwise, we just show a generic error message.
         else {
-            return new ErrorConstructor(500, undefined, fallbackTitle);
+            console.error(err.stack);
+            return new ErrorConstructor(500, err, fallbackTitle);
           }
     }
   }]);

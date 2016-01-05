@@ -1,5 +1,7 @@
 let nonEnumerable = {writable: true, enumerable: false};
 
+import util from 'util';
+
 export default class APIError extends Error {
   /*eslint-disable no-unused-vars */
   constructor(status, code, title, detail, links, paths) {
@@ -45,12 +47,10 @@ export default class APIError extends Error {
   static fromError(err) {
     const fallbackTitle = "An unknown error occurred while trying to process this request.";
     const ErrorConstructor = this || APIError; // in case this isn't bound.
-
-    console.error(err.stack);
     
     if(err instanceof APIError) {
       return err;
-    }
+    } 
 
     // If the error is marked as ready for JSON API display, it's secure
     // to read values off it and show them to the user. (Note: most of
@@ -68,7 +68,8 @@ export default class APIError extends Error {
 
     // Otherwise, we just show a generic error message.
     else {
-      return new ErrorConstructor(500, undefined, fallbackTitle);
+      console.error(err.stack);
+      return new ErrorConstructor(500, err, fallbackTitle);
     }
 
   }
